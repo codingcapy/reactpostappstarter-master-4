@@ -12,20 +12,20 @@ export const PostPage = () => {
   return (
     <Container>
       <React.Suspense fallback={<PageLoader />}>
-        <Await>
-          <SimpleGrid cols={3}>
-            {posts?.map((post) => (
+        <SimpleGrid cols={3}>
+          <Await resolve={posts.result} errorElement={<p>Error loading data</p>}>
+            {(result) => result.data?.map((post) => (
               <ArticleCardImage key={post.title} {...post} />
             ))}
-          </SimpleGrid>
-        </Await>
+          </Await>
+        </SimpleGrid>
       </React.Suspense >
     </Container>
   );
 };
 
 export const postsLoader = async () => {
-  const res = await axios.get(`${DOMAIN}/api/posts`);
+  const res = axios.get(`${DOMAIN}/api/posts`);
   console.log("I ran!");
-  return res.data;
+  return defer({ result: res });
 };

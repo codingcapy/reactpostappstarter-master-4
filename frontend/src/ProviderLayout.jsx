@@ -12,9 +12,8 @@ import { useThemeStore } from "./store/ThemeStore";
 
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
-
-
 const themeOverride = createTheme({
+  colorScheme: "",
   fontFamily: "Verdana, sans-serif",
   white: "#FAFAFA",
   spacing: {
@@ -32,19 +31,19 @@ const theme = mergeMantineTheme(DEFAULT_THEME, themeOverride);
 export default ({ children }) => {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
-    defaultValue: "dark",
+    defaultValue: "light",
     getInitialValueInEffect: true,
   });
-  
+
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
-  
+
   const toggleColorScheme = (value) => {
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
   };
-  const {darkMode} = useThemeStore((state)=>state)
+  const { darkMode } = useThemeStore((state) => state)
   return (
     <>
-      <MantineProvider theme={{colorScheme:colorScheme}} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={darkMode ? "dark" : theme} withGlobalStyles withNormalizeCSS>
         <DrawerProvider>{children}</DrawerProvider>
       </MantineProvider>
     </>

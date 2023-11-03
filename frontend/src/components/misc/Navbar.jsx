@@ -1,16 +1,17 @@
 import React from "react";
 import classes from "./Navbar.module.css";
 import { MantineLogo } from "@mantine/ds";
-import { Container, Group, Burger, Drawer, Stack } from "@mantine/core";
+import { Container, Group, Burger, Drawer, Stack, useMantineColorScheme } from "@mantine/core";
 import useLinks from "./useLinks";
 import { DrawerContext } from "../../Contexts/drawerContext";
 import { Switch } from '@mantine/core';
 import { useThemeStore } from "../../store/ThemeStore";
 
 const Navbar = () => {
+  // const [toggleColorScheme] = useMantineColorScheme()
   const { opened, toggle } = React.useContext(DrawerContext);
   const [items] = useLinks();
-  const {darkMode, toggleDarkMode} = useThemeStore((state)=>state)
+  const { darkMode, toggleDarkMode } = useThemeStore((state) => state)
 
   return (
     <header className={classes.header}>

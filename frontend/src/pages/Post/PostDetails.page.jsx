@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { Button, Container } from "@mantine/core";
+import { useLoaderData } from "react-router-dom"
 
 function PostDetailsPage(title, category, image, id) {
+  // const data = useLoaderData()
   return (
     <>
       <Container>
@@ -17,8 +19,9 @@ function PostDetailsPage(title, category, image, id) {
 }
 
 export const postDetailsLoader = async ({ params }) => {
-  // do something with this
-  return null;
+  // const pDetails = await axios.get(`${DOMAIN}/api/${params.id}`);
+  // return pDetails.data;
+  return null
 };
 
 export default PostDetailsPage;
