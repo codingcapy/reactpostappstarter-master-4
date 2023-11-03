@@ -8,10 +8,15 @@ import { Switch } from '@mantine/core';
 import { useThemeStore } from "../../store/ThemeStore";
 
 const Navbar = () => {
-  // const [toggleColorScheme] = useMantineColorScheme()
+  const colorScheme = useMantineColorScheme()
   const { opened, toggle } = React.useContext(DrawerContext);
   const [items] = useLinks();
   const { darkMode, toggleDarkMode } = useThemeStore((state) => state)
+
+  function handleThemeToggle() {
+    toggleDarkMode();
+    colorScheme.toggleColorScheme()
+  }
 
   return (
     <header className={classes.header}>
@@ -20,7 +25,7 @@ const Navbar = () => {
         <Group gap={5} visibleFrom="xs">
           {items}
         </Group>
-        <Switch checked={darkMode} onChange={toggleDarkMode} label="Light/Dark Mode" />
+        <Switch checked={darkMode} onChange={handleThemeToggle} label="Light/Dark Mode" />
         <Burger hiddenFrom="xs" opened={opened} onClick={toggle} />
         <Drawer
           withCloseButton={true}

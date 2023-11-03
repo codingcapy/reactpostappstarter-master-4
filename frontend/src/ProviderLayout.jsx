@@ -8,10 +8,6 @@ import {
 } from "@mantine/core";
 import DrawerProvider from "./Contexts/drawerContext";
 
-import { useThemeStore } from "./store/ThemeStore";
-
-import { useHotkeys, useLocalStorage } from "@mantine/hooks";
-
 const themeOverride = createTheme({
   colorScheme: "",
   fontFamily: "Verdana, sans-serif",
@@ -26,24 +22,13 @@ const themeOverride = createTheme({
   titleFontSize: rem(32),
   cardHeight: rem(440),
 });
+
 const theme = mergeMantineTheme(DEFAULT_THEME, themeOverride);
 
 export default ({ children }) => {
-  const [colorScheme, setColorScheme] = useLocalStorage({
-    key: "mantine-color-scheme",
-    defaultValue: "light",
-    getInitialValueInEffect: true,
-  });
-
-  useHotkeys([["mod+J", () => toggleColorScheme()]]);
-
-  const toggleColorScheme = (value) => {
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-  };
-  const { darkMode } = useThemeStore((state) => state)
   return (
     <>
-      <MantineProvider theme={darkMode ? "dark" : theme} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
         <DrawerProvider>{children}</DrawerProvider>
       </MantineProvider>
     </>

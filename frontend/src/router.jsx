@@ -52,11 +52,9 @@ export const Router = () => {
         <Route
           path="/posts"
           element={
-              <ProtectedRoute isAllowed={!!authCheck}>
-                <React.Suspense fallback={<PageLoader />}>
-                <PostPage />
-                </React.Suspense>
-              </ProtectedRoute>
+            <ProtectedRoute isAllowed={!!authCheck}>
+              <PostPage />
+            </ProtectedRoute>
           }
           loader={postsLoader}
         />
