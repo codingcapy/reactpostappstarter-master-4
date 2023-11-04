@@ -26,10 +26,10 @@ export default () => {
       <NavLink onClick={handleClick} className={classes.link} end to="/posts">
         Posts
       </NavLink>,
-      <NavLink onClick={handleClick} end to="/posts/create">
+      <NavLink onClick={handleClick} className={classes.link} end to="/posts/create">
         Create
       </NavLink>,
-      <NavLink onClick={() => handleClick(logoutService)} to="/">
+      <NavLink onClick={() => handleClick(logoutService)} className={classes.link} to="/">
         Logout
       </NavLink>,
     ];
