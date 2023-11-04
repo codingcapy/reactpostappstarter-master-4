@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode"
 
 export const setSession = (token) => {
   if (token) {
@@ -12,3 +13,19 @@ export const setSession = (token) => {
 export const getAccessToken = () => {
   return window.localStorage.getItem("jwt_access_token");
 };
+
+export const getUserIdFromToken = () => {
+  const token = getAccessToken();
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken)
+      return decodedToken.id;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  } else {
+    return null;
+  }
+}; ``
