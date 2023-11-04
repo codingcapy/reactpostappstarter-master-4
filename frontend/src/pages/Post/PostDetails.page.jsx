@@ -8,7 +8,7 @@ import { Await, defer, useLoaderData } from "react-router-dom"
 import PageLoader from "../../components/misc/PageLoader";
 import classes from "./postdetails.module.css"
 
-function PostDetailsPage(title, category, image, id) {
+function PostDetailsPage() {
   const post = useLoaderData()
   return (
     <>
