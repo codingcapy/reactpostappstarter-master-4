@@ -75,4 +75,10 @@ app.post("/api/posts", (req, res) => {
   res.status(200).json({ success: true });
 });
 
+app.post("/api/posts/:id", (req, res) => {
+  const incomingPost = req.body;
+  addPost(incomingPost);
+  res.status(200).json({ success: true });
+});
+
 app.listen(port, () => console.log("Server is running"));

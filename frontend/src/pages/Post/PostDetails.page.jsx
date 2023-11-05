@@ -10,17 +10,21 @@ import classes from "./postdetails.module.css"
 import { getUserIdFromToken } from "../../services/jwt.service";
 import { useEditStore } from "../../store/EditStore";
 
+const params = window.location.search
+const id = new URLSearchParams(params).get('id')
+
 function PostDetailsPage() {
   const post = useLoaderData()
   const userId = getUserIdFromToken();
   const { editMode, toggleEditMode } = useEditStore((state) => state)
 
   async function editPost(values) {
-    await axios.patch(`${DOMAIN}/api/posts`, values)
+    await axios.patch(`${DOMAIN}/api/posts/${id}`, values)
   }
 
   function handleSubmit(e) {
     e.preventDefault()
+    editPost(e)
     toggleEditMode()
 
   }
