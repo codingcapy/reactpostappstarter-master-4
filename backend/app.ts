@@ -75,4 +75,17 @@ app.post("/api/posts", (req, res) => {
   res.status(200).json({ success: true });
 });
 
+app.post("/api/posts/:id", (req, res) => {
+  const id = req.params.id;
+  const post = posts.find((post) => post.id === parseInt(id));
+  if (!post) {
+    res.status(404).json({ error: "Post not found" });
+  } else {
+    res.json(post);
+  }
+  const incomingPost = req.body;
+  addPost(incomingPost);
+  res.status(200).json({ success: true });
+});
+
 app.listen(port, () => console.log("Server is running"));

@@ -6,4 +6,7 @@
     .image {
         max-width: 600px;
     }
+    .detailsContainer{
+        display: flex;
+    }
 }
