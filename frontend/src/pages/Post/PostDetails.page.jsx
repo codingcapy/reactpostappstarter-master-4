@@ -60,7 +60,7 @@ function PostDetailsPage() {
               :
               <div>
                 <div className={classes.detailsContainer}>
-                  <div>
+                  <div className={classes.detailsMetData}>
                     <p>Author: {result.data.userName}</p>
                     <p>Title: {result.data.title}</p>
                     <p>Category: {result.data.category}</p>
