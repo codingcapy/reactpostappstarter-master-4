@@ -86,4 +86,26 @@ app.post("/api/posts/:id", (req, res) => {
   res.status(200).json({ success: true });
 });
 
+// app.put("/api/posts/:id", (req, res) => {
+//   const id = req.params.id;
+//   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
+//   if (postIndex === -1) {
+//     return res.status(404).json({ error: "Post not found" });
+//   }
+//   const updatedPost = req.body;
+//   posts[postIndex] = { ...posts[postIndex], ...updatedPost };
+//   res.status(200).json({ success: true });
+// });
+
+// app.patch("/api/posts/:id", (req, res) => {
+//   const id = req.params.id;
+//   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
+//   if (postIndex === -1) {
+//     return res.status(404).json({ error: "Post not found" });
+//   }
+//   const updatedPost = req.body;
+//   posts[postIndex] = { ...posts[postIndex], ...updatedPost };
+//   res.status(200).json({ success: true });
+// });
+
 app.listen(port, () => console.log("Server is running"));

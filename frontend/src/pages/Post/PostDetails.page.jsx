@@ -49,10 +49,10 @@ function PostDetailsPage() {
             {(result) => editMode
               ? <Box maw={300} mx="auto">
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                  <TextInput label="Title" placeholder={result.data.title} />
-                  <TextInput label="Category" placeholder={result.data.category} />
-                  <TextInput label="Image" placeholder={result.data.image} />
-                  <TextInput label="Content" placeholder={result.data.content} />
+                  <TextInput label="Title" placeholder={result.data.title} {...form.getInputProps("title")}/>
+                  <TextInput label="Category" placeholder={result.data.category} {...form.getInputProps("category")}/>
+                  <TextInput label="Image" placeholder={result.data.image} {...form.getInputProps("image")}/>
+                  <TextInput label="Content" placeholder={result.data.content} {...form.getInputProps("content")}/>
                   <Button type="submit">Update</Button>
                   <Button onClick={toggleEditMode}>Cancel</Button>
                 </form>

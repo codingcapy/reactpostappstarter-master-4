@@ -44,11 +44,15 @@ export const addPost = (post: any) => {
   //  *     and the id of the currently logged in user to the post.
   post.id = posts.length === 0 ? 1 : posts[posts.length - 1].id + 1;
   // post.userId = 1
-  posts.push(post); 
+  posts.push(post);
 };
 
-export const editPost = (target:any, post: any) => {
-      target = post
+export const editPost = (target: any, post: any) => {
+  target.title = post.title;
+  target.category = post.category;
+  target.image = post.image;
+  target.content = post.content;
+  target.userId = post.userId;
 };
 
 export const verifyUser = (email: string, password: string) => {
