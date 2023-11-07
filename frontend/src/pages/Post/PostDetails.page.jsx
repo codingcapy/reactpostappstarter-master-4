@@ -18,7 +18,6 @@ function PostDetailsPage() {
   const { editMode, toggleEditMode } = useEditStore((state) => state)
   const navigate = useNavigate();
   const id = post.result.data.id
-
   const form = useForm({
     initialValues: {
       title: "",
@@ -62,7 +61,7 @@ function PostDetailsPage() {
               <div>
                 <div className={classes.detailsContainer}>
                   <div>
-                    <p>Author: {result.data.userId}</p>
+                    <p>Author: {result.data.userName}</p>
                     <p>Title: {result.data.title}</p>
                     <p>Category: {result.data.category}</p>
                     <p>Content: {result.data.content}</p>
@@ -76,9 +75,9 @@ function PostDetailsPage() {
               </div>
             }
           </Await>
-          <Button>
+          {!editMode && <Button>
             <Link to="/posts">Back to Posts</Link>
-          </Button>
+          </Button>}
         </React.Suspense>
       </Container>
     </>

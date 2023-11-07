@@ -56,7 +56,7 @@ app.get("/api/posts/:id", (req, res) => {
   if (!post) {
     res.status(404).json({ error: "Post not found" });
   } else {
-    res.json(post);
+    res.json({...post, userName:findUserById(post.userId).email});
   }
 });
 

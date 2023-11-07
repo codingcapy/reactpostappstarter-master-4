@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserIdFromToken } from "../../services/jwt.service";
 
 function CreatePostPage() {
+  const userId = getUserIdFromToken()
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -15,8 +16,6 @@ function CreatePostPage() {
       content: "",
     },
   });
-
-  const userId = getUserIdFromToken()
 
   const handleSubmit = async (values) => {
     const post = { ...values, userId: userId }
