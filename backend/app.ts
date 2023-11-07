@@ -7,6 +7,7 @@ import {
   verifyUser,
   parseToken,
   addPost,
+  editPost,
   posts,
   sleep,
 } from "./fakedb";
@@ -55,7 +56,7 @@ app.get("/api/posts/:id", (req, res) => {
   if (!post) {
     res.status(404).json({ error: "Post not found" });
   } else {
-    res.json(post);
+    res.json({ ...post, userName: findUserById(post.userId).email });
   }
 });
 
@@ -69,6 +70,8 @@ app.get("/api/posts/:id", (req, res) => {
  *     What if you make a request to this route with a valid token but
  *     with an empty/incorrect payload (post)
  */
+
+
 app.post("/api/posts", (req, res) => {
   const incomingPost = req.body;
   addPost(incomingPost);
@@ -76,9 +79,33 @@ app.post("/api/posts", (req, res) => {
 });
 
 app.post("/api/posts/:id", (req, res) => {
+  const id = req.params.id;
+  const post = posts.find((post) => post.id === parseInt(id));
   const incomingPost = req.body;
-  addPost(incomingPost);
+  editPost(post, incomingPost);
   res.status(200).json({ success: true });
 });
+
+// app.put("/api/posts/:id", (req, res) => {
+//   const id = req.params.id;
+//   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
+//   if (postIndex === -1) {
+//     return res.status(404).json({ error: "Post not found" });
+//   }
+//   const updatedPost = req.body;
+//   posts[postIndex] = { ...posts[postIndex], ...updatedPost };
+//   res.status(200).json({ success: true });
+// });
+
+// app.patch("/api/posts/:id", (req, res) => {
+//   const id = req.params.id;
+//   const postIndex = posts.findIndex((post) => post.id === parseInt(id));
+//   if (postIndex === -1) {
+//     return res.status(404).json({ error: "Post not found" });
+//   }
+//   const updatedPost = req.body;
+//   posts[postIndex] = { ...posts[postIndex], ...updatedPost };
+//   res.status(200).json({ success: true });
+// });
 
 app.listen(port, () => console.log("Server is running"));

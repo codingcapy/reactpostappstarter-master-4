@@ -9,6 +9,8 @@ import PageLoader from "../../components/misc/PageLoader";
 import classes from "./postdetails.module.css"
 import { getUserIdFromToken } from "../../services/jwt.service";
 import { useEditStore } from "../../store/EditStore";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "@mantine/form";
 
 const params = window.location.search
 const id = new URLSearchParams(params).get('id')
@@ -17,16 +19,29 @@ function PostDetailsPage() {
   const post = useLoaderData()
   const userId = getUserIdFromToken();
   const { editMode, toggleEditMode } = useEditStore((state) => state)
+  const navigate = useNavigate();
+  const id = post.result.data.id
+  const form = useForm({
+    initialValues: {
+      title: "",
+      category: "",
+      image: "",
+      content: "",
+    },
+  });
 
-  async function editPost(values) {
-    await axios.patch(`${DOMAIN}/api/posts/${id}`, values)
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    editPost(e)
+  async function handleSubmit(values) {
+    const updatedPost = {
+      ...post.result.data,
+      title: values.title,
+      category: values.category,
+      image: values.image,
+      content: values.content,
+      userId: userId,
+    };
+    await axios.post(`${DOMAIN}/api/posts/${id}`, updatedPost)
     toggleEditMode()
-
+    navigate("/posts");
   }
 
   return (
@@ -36,25 +51,36 @@ function PostDetailsPage() {
           <Await resolve={post.result} errorElement={<p>Error loading data</p>}>
             {(result) => editMode
               ? <Box maw={300} mx="auto">
-                <form onSubmit={handleSubmit}>
-                  <TextInput label="Title" placeholder={result.data.title} />
-                  <TextInput label="Category" placeholder={result.data.category} />
-                  <TextInput label="Image" placeholder={result.data.image} />
-                  <TextInput label="Content" placeholder={result.data.content} />
-                  <Button type="submit" >Update</Button>
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                  <TextInput label="Title" placeholder={result.data.title} {...form.getInputProps("title")} />
+                  <TextInput label="Category" placeholder={result.data.category} {...form.getInputProps("category")} />
+                  <TextInput label="Image" placeholder={result.data.image} {...form.getInputProps("image")} />
+                  <TextInput label="Content" placeholder={result.data.content} {...form.getInputProps("content")} />
+                  <Button type="submit">Update</Button>
+                  <Button onClick={toggleEditMode}>Cancel</Button>
                 </form>
               </Box>
-              : <Box maw={300} mx="auto">
-                <img src={result.data.image} className={classes.image} />
-                <p>Title: {result.data.title}</p>
-                <p>Category: {result.data.category}</p>
-                <p>Description: {result.data.content}</p>
-                {userId === result.data.id && <Button onClick={toggleEditMode}>Edit</Button>}
-              </Box>}
+              :
+              <div>
+                <div className={classes.detailsContainer}>
+                  <div className={classes.detailsMetData}>
+                    <p>Author: {result.data.userName}</p>
+                    <p>Title: {result.data.title}</p>
+                    <p>Category: {result.data.category}</p>
+                    <p>Content: {result.data.content}</p>
+                    {userId === result.data.userId && <Button onClick={toggleEditMode}>Edit</Button>}
+                  </div>
+                  <div>
+                    <img src={result.data.image} className={classes.image} />
+                  </div>
+                </div>
+
+              </div>
+            }
           </Await>
-          <Button>
+          {!editMode && <Button>
             <Link to="/posts">Back to Posts</Link>
-          </Button>
+          </Button>}
         </React.Suspense>
       </Container>
     </>

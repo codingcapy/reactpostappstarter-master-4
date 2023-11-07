@@ -15,21 +15,21 @@ export default () => {
 
   const items = !user
     ? [
-      <NavLink onClick={handleClick} className={classes.link} end to="/">
+      <NavLink key="1" onClick={handleClick} className={classes.link} end to="/">
         Home
       </NavLink>,
-      <NavLink onClick={handleClick} className={classes.link} to="/login">
+      <NavLink key="2" onClick={handleClick} className={classes.link} to="/login">
         Login
       </NavLink>,
     ]
     : [
-      <NavLink onClick={handleClick} className={classes.link} end to="/posts">
+      <NavLink key="3" onClick={handleClick} className={classes.link} end to="/posts">
         Posts
       </NavLink>,
-      <NavLink onClick={handleClick} className={classes.link} end to="/posts/create">
+      <NavLink key="4" onClick={handleClick} className={classes.link} end to="/posts/create">
         Create
       </NavLink>,
-      <NavLink onClick={() => handleClick(logoutService)} className={classes.link} to="/">
+      <NavLink key="5" onClick={() => handleClick(logoutService)} className={classes.link} to="/">
         Logout
       </NavLink>,
     ];

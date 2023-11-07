@@ -6,4 +6,12 @@
     .image {
         max-width: 600px;
     }
+
+    .detailsContainer {
+        display: flex;
+    }
+
+    .detailsMetData {
+        padding: 10px;
+    }
 }

@@ -1,5 +1,11 @@
 import { Response } from "express";
 
+export const findUserById = (id: number) => {
+  const user = users.find((user) => user.id === id);
+  if (!user) throw new Error("User not found");
+  return user;
+};
+
 export interface IDecodedUser {
   id: number;
 }
@@ -37,20 +43,22 @@ export const addPost = (post: any) => {
   //  *     but the addPost function needs to add a unique id
   //  *     and the id of the currently logged in user to the post.
   post.id = posts.length === 0 ? 1 : posts[posts.length - 1].id + 1;
-  post.userId = 2;
+  // post.userId = 1
   posts.push(post);
+};
+
+export const editPost = (target: any, post: any) => {
+  target.title = post.title;
+  target.category = post.category;
+  target.image = post.image;
+  target.content = post.content;
+  target.userId = post.userId;
 };
 
 export const verifyUser = (email: string, password: string) => {
   const user = users.find((user) => {
     return user.email === email && user.password === password;
   });
-  if (!user) throw new Error("User not found");
-  return user;
-};
-
-export const findUserById = (id: number) => {
-  const user = users.find((user) => user.id === id);
   if (!user) throw new Error("User not found");
   return user;
 };
