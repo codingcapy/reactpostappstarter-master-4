@@ -45,8 +45,12 @@ export const addPost = (post: any) => {
   //  *     but the addPost function needs to add a unique id
   //  *     and the id of the currently logged in user to the post.
   post.id = posts.length === 0 ? 1 : posts[posts.length - 1].id + 1;
-  post.userId = 2;
-  posts.push(post);
+  // post.userId = 1
+  posts.push(post); 
+};
+
+export const editPost = (target:any, post: any) => {
+      target = post
 };
 
 export const verifyUser = (email: string, password: string) => {

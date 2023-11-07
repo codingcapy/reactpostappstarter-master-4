@@ -3,6 +3,7 @@ import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
+import { getUserIdFromToken } from "../../services/jwt.service";
 
 function CreatePostPage() {
   const navigate = useNavigate();
@@ -15,8 +16,12 @@ function CreatePostPage() {
     },
   });
 
+  const userId = getUserIdFromToken()
+
   const handleSubmit = async (values) => {
-    const res = await axios.post(`${DOMAIN}/api/posts`, values);
+    const post = { ...values, userId: userId }
+    console.log(post)
+    const res = await axios.post(`${DOMAIN}/api/posts`, post);
     if (res?.data.success) {
       navigate("/posts");
     }
@@ -41,13 +46,11 @@ function CreatePostPage() {
           placeholder="Enter an Image"
           {...form.getInputProps("image")}
         />
-
         <TextInput
           label="Content"
           placeholder="Enter some content"
           {...form.getInputProps("content")}
         />
-
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>

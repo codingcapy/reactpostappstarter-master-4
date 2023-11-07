@@ -9,24 +9,37 @@ import PageLoader from "../../components/misc/PageLoader";
 import classes from "./postdetails.module.css"
 import { getUserIdFromToken } from "../../services/jwt.service";
 import { useEditStore } from "../../store/EditStore";
-
-const params = window.location.search
-const id = new URLSearchParams(params).get('id')
+import { useNavigate } from "react-router-dom";
+import { useForm } from "@mantine/form";
 
 function PostDetailsPage() {
   const post = useLoaderData()
   const userId = getUserIdFromToken();
   const { editMode, toggleEditMode } = useEditStore((state) => state)
+  const navigate = useNavigate();
+  const id = post.result.data.id
 
-  async function editPost(values) {
-    await axios.patch(`${DOMAIN}/api/posts/${id}`, values)
-  }
+  const form = useForm({
+    initialValues: {
+      title: "",
+      category: "",
+      image: "",
+      content: "",
+    },
+  });
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    editPost()
+  async function handleSubmit(values) {
+    const updatedPost = {
+      ...post.result.data,
+      title: values.title,
+      category: values.category,
+      image: values.image,
+      content: values.content,
+      userId: userId,
+    };
+    await axios.post(`${DOMAIN}/api/posts/${id}`, updatedPost)
     toggleEditMode()
-
+    navigate("/posts");
   }
 
   return (
@@ -36,19 +49,20 @@ function PostDetailsPage() {
           <Await resolve={post.result} errorElement={<p>Error loading data</p>}>
             {(result) => editMode
               ? <Box maw={300} mx="auto">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={form.onSubmit(handleSubmit)}>
                   <TextInput label="Title" placeholder={result.data.title} />
                   <TextInput label="Category" placeholder={result.data.category} />
                   <TextInput label="Image" placeholder={result.data.image} />
                   <TextInput label="Content" placeholder={result.data.content} />
-                  <Button type="submit" >Update</Button>
+                  <Button type="submit">Update</Button>
+                  <Button onClick={toggleEditMode}>Cancel</Button>
                 </form>
               </Box>
               :
               <div>
                 <div className={classes.detailsContainer}>
                   <div>
-                    <p>Author: {result.data.userName}</p>
+                    <p>Author: {result.data.userId}</p>
                     <p>Title: {result.data.title}</p>
                     <p>Category: {result.data.category}</p>
                     <p>Content: {result.data.content}</p>
